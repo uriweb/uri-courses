@@ -27,7 +27,7 @@ include_once( URI_COURSES_PATH . 'inc/uri-courses-settings.php' );
  * Add a few generic course styles
  */
 function uri_courses_enqueue() {
-	wp_enqueue_style( 'uri-courses-styles', URI_COURSES_PATH . 'assets/courses.css' );
+	wp_enqueue_style( 'uri-courses-styles', plugins_url( 'assets/courses.css', __FILE__ ) );
 }
 add_action( 'wp_enqueue_scripts', 'uri_courses_enqueue' );
 
