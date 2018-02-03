@@ -101,7 +101,9 @@ function uri_courses_get_courses( $attributes ) {
 	
 	// 1. load all cached courses
 	$course_cache = get_option( 'uri_courses_cache' );
-	//$course_cache = unserialize( $course_cache );
+	if ( empty( $course_cache ) ) {
+		$course_cache = array();
+	}
 
 	// 2. check if we have a cache for this resource
 	$url = _uri_courses_build_url ( $attributes['subject'] );
@@ -121,7 +123,7 @@ function uri_courses_get_courses( $attributes ) {
 	}
 	
 	if( $refresh_cache ) {
-		echo '<pre>Pull fresh courses and cache them</pre>';
+		//echo '<pre>Pull fresh courses and cache them</pre>';
 		$course_data = _uri_courses_query_api_by_subject( $attributes['subject'] );
 		if ( $course_data !== FALSE ) {
 			uri_courses_cache_courses($course_data);
