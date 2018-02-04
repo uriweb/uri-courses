@@ -6,7 +6,7 @@
 	function CoursesShortcode( props ) {
 		return el( 'div', {
 			'data-subject': props.subject
-		}, '[courses subject="' + props.subject + '"]');
+		}, '[courses subject="' + props.subject.toUpperCase() + '"]');
 	}
 
 	blocks.registerBlockType( 'uri-courses/by-subject', {

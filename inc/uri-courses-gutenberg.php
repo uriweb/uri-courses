@@ -14,7 +14,7 @@ function uri_courses_subject_block() {
 		'uri-courses-by-subject',
 		URI_COURSES_PATH . 'assets/gutenberg/subject/block.js',
 		array( 'wp-blocks', 'wp-element' ),
-		strtotime('now')
+		strtotime('now') // cache buster
 	);
 
 	register_block_type(

@@ -22,6 +22,8 @@ require_once URI_COURSES_PATH . 'inc/uri-courses-templating.php';
 include_once( URI_COURSES_PATH . 'inc/uri-courses-settings.php' );
 
 // include the Gutenberg block
+// currently, quotation marks in a gutenberg break the update process
+// dunno why.
 // include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
 
 
