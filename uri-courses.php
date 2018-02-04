@@ -16,11 +16,13 @@ define( 'URI_COURSES_PATH', plugin_dir_path( __FILE__ ) );
 
 
 // require the code to handle where to find template files
-require_once URI_COURSES_PATH . '/inc/uri-courses-templating.php';
+require_once URI_COURSES_PATH . 'inc/uri-courses-templating.php';
 
 // set up the admin settings screen
 include_once( URI_COURSES_PATH . 'inc/uri-courses-settings.php' );
 
+// include the Gutenberg block
+// include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
 
 
 /**
