@@ -138,10 +138,6 @@ function uri_courses_get_courses( $attributes ) {
 		}	
 	}
 	
-	echo 'URL ' . $url . '<br>';
-	echo 'hash ' . $hash . '<br>';
-	echo '<hr>';
-	
 	return $course_data;
 
 }
