@@ -62,6 +62,7 @@
 		init : function(ed, url) {
 
 			// add the button that the WP plugin defined in the mce_buttons filter callback
+			// @todo use a dashicon: https://wordpress.stackexchange.com/questions/138167/how-to-use-the-new-dashicons-for-custom-tinymce-buttons
 			ed.addButton('uri_courses_button', {
 				title : 'Courses',
 				text : '',

@@ -115,6 +115,7 @@ function uri_courses_get_courses( $attributes ) {
 	// 2. check if we have a cache for this resource
 	$url = _uri_courses_build_url ( $attributes['subject'] );
 	$hash = uri_courses_hash_url( $url );
+	
 	if ( array_key_exists($hash, $course_cache ) ) {
 		// we've got cached data!
 		$course_data = $course_cache[$hash];
@@ -136,6 +137,10 @@ function uri_courses_get_courses( $attributes ) {
 			uri_courses_cache_courses($course_data);
 		}	
 	}
+	
+	echo 'URL ' . $url . '<br>';
+	echo 'hash ' . $hash . '<br>';
+	echo '<hr>';
 	
 	return $course_data;
 
@@ -165,7 +170,7 @@ function uri_courses_cache_courses( $course_data ) {
  * @return str 
  */
 function uri_courses_hash_url ( $url ) {
-	$hash = md5( $course_data['url'] );
+	$hash = md5( $url );
 	return $hash;
 }
 /**
