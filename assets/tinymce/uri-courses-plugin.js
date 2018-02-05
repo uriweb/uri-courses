@@ -2,25 +2,27 @@
 
 (function() {
 
-	function renderButton( shortcode ) {
+	function renderCourse( shortcode ) {
 		var parsed, safeData, classes, out;
 
 		parsed = URICOURSES.parseShortCodeAttributes( shortcode );
+
+		return shortcode;
+
 		safeData = window.encodeURIComponent( shortcode );
-        classes = 'mceNonEditable uri-courses';
-        
-        out = '<div data-shortcode="' + safeData + '"';
-//         if(parsed.prominent == 'true') {
-//             classes += ' prominent';
-//         }
-        out += ' class="' + classes + '">';
-        if(!parsed.subject) { parsed.text = 'COURSE LIST FOR ' + parsed.subject; }
-        out += shortcode + '</div>';
+		classes = 'mceNonEditable uri-courses';
 		
-		return out;
+// 		out = '<div data-shortcode="' + safeData + '"';
+// 		out += ' class="' + classes + '">';
+// 		if(!parsed.subject) { parsed.text = 'COURSE LIST FOR ' + parsed.subject; }
+// 		out += shortcode + '</div>';
+// 		
+// 		return out;
 	}
+
+
 	
-	function restoreButtonShortcodes( content ) {
+	function restoreButtonCourse( content ) {
 		var html, els, i, t;
 		
 		// convert the content string into a DOM tree so we can parse it easily
@@ -36,17 +38,14 @@
 		//return the DOM tree as a string
 		return html.innerHTML;
 	}
+
 	
-	function generateButtonShortcode(params) {
-
+	function generateCourseShortcode(params) {
 		var attributes = [];
-
 		for(i in params) {
 			attributes.push(i + '="' + params[i] + '"');
 		}
-		
-		return '[uri-courses ' + attributes.join(' ') + ']';
-
+		return '[courses ' + attributes.join(' ') + ']';
 	}
 
 
@@ -95,7 +94,7 @@
 					onsubmit: function(e) {
 						// Insert content when the window form is submitted
 						e.data = URICOURSES.escapeQuotesDeep(e.data);						
-						shortcode = generateButtonShortcode(e.data);
+						shortcode = generateCourseShortcode(e.data);
 						ed.execCommand('mceInsertContent', 0, shortcode);
 					}
 				},
@@ -106,33 +105,12 @@
 			});
 
 			ed.on( 'BeforeSetContent', function( event ) {
-				event.content = URICOURSES.replaceShortcodes( event.content, 'uri-courses', true, renderButton );
+				event.content = URICOURSES.replaceShortcodes( event.content, 'uri-courses', true, renderCourse );
 			});
 
 			ed.on( 'PostProcess', function( event ) {
 				if ( event.get ) {
-					event.content = restoreButtonShortcodes( event.content );
-				}
-			});
-
-			//open popup on placeholder double click
-			ed.on('DblClick',function(e) {
-				var isCourse = false, card, sc, attributes;
-				card = e.target;
-				while ( isCourse === false && card.parentNode ) {
-					if ( card.className.indexOf('uri-courses') > -1 ) {
-						isCourse = true;
-					} else {
-						if(card.parentNode) {
-							card = card.parentNode;
-						}
-					}
-				}
-				
-				if ( isCourse ) {
-					sc = window.decodeURIComponent( card.getAttribute('data-shortcode') );
-					attributes = URICOURSES.parseShortCodeAttributes(sc);
-					ed.execCommand('CoursesButton', attributes);
+					event.content = restoreButtonCourse( event.content );
 				}
 			});
 
@@ -177,4 +155,3 @@
 
 
 })();
-
