@@ -11,13 +11,7 @@
 
 		safeData = window.encodeURIComponent( shortcode );
 		classes = 'mceNonEditable uri-courses';
-		
-// 		out = '<div data-shortcode="' + safeData + '"';
-// 		out += ' class="' + classes + '">';
-// 		if(!parsed.subject) { parsed.text = 'COURSE LIST FOR ' + parsed.subject; }
-// 		out += shortcode + '</div>';
-// 		
-// 		return out;
+
 	}
 
 
