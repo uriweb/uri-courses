@@ -13,6 +13,7 @@ if ( !defined('ABSPATH') )
 	die('-1');
 
 define( 'URI_COURSES_PATH', plugin_dir_path( __FILE__ ) );
+define( 'URI_COURSES_URL', str_replace('/assets', '/', plugins_url( 'assets', __FILE__ ) ) );
 
 
 // require the code to handle where to find template files
@@ -22,9 +23,11 @@ require_once URI_COURSES_PATH . 'inc/uri-courses-templating.php';
 include_once( URI_COURSES_PATH . 'inc/uri-courses-settings.php' );
 
 // include the Gutenberg block
-// currently, quotation marks in a gutenberg break the update process
-// dunno why.
+// currently, quotation marks in a gutenberg break the update post process dunno why.
 // include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
+
+// include the TinyMCE button
+include_once( URI_COURSES_PATH . 'inc/uri-courses-tinymce.php' );
 
 
 /**
