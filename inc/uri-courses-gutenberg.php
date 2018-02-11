@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 function uri_courses_subject_block() {
 	wp_register_script(
 		'uri-courses-by-subject',
-		URI_COURSES_PATH . 'assets/gutenberg/subject/block.js',
+		URI_COURSES_URL . 'assets/gutenberg/subject/block.js',
 		array( 'wp-blocks', 'wp-element' ),
 		strtotime('now') // cache buster
 	);
