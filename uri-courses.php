@@ -23,8 +23,9 @@ require_once URI_COURSES_PATH . 'inc/uri-courses-templating.php';
 include_once( URI_COURSES_PATH . 'inc/uri-courses-settings.php' );
 
 // include the Gutenberg block
-// currently, quotation marks in a gutenberg break the update post process dunno why.
-include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
+if ( function_exists( 'the_gutenberg_project' ) ) {
+	include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
+}
 
 // include the TinyMCE button
 include_once( URI_COURSES_PATH . 'inc/uri-courses-tinymce.php' );
