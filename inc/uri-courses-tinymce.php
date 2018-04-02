@@ -39,7 +39,7 @@ add_filter( 'mce_buttons', 'uri_courses_register_buttons' );
  */
 function uri_courses_add_scripts( $hook ) {
 	
-	if ( 'edit.php' === $hook || 'post-new.php' === $hook || 'post.php' === $hook) { 
+	if ( 'edit.php' === $hook || 'post-new.php' === $hook || 'post.php' === $hook ) { 
 	  //wp_enqueue_style('uri-courses-admin-styles', URI_COURSES_URL . 'assets/tinymce/uri-courses-admin.css', array(), strtotime('now') );
 	  // this is the only way to get this to go... it'll work until Gutenberg is ready
 	  add_editor_style( URI_COURSES_URL . 'assets/tinymce/uri-courses-admin.css' );
