@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'BLOKK';
+    src: url('../../BLOKKNeue-Regular/BLOKKNeue-Regular.eot');
+    src: url('../../BLOKKNeue-Regular/BLOKKNeue-Regular.eot?#iefix') format('embedded-opentype'),
+         url('../../BLOKKNeue-Regular/BLOKKNeue-Regular.woff2') format('woff2'),
+         url('../../BLOKKNeue-Regular/BLOKKNeue-Regular.woff') format('woff'),
+         url('../../BLOKKNeue-Regular/BLOKKNeue-Regular.otf') format('opentype'),
+         url('../../BLOKKNeue-Regular/BLOKKNeue-Regular.ttf') format('truetype'),
+         url('../../BLOKKNeue-Regular/BLOKKNeue-Regular.svg#BLOKKRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+        font-family: 'BLOKK';
+        src: url('../../BLOKKNeue-Regular/BLOKKNeue-Regular.svg') format('svg');
+    }
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.courses-wrapper .uri-courses-lorem-ipsum h4,
+.courses-wrapper .uri-courses-lorem-ipsum p {
+	color: #777;
+	font-family: "BLOKK", Arial, sans-serif;
+	line-height: 1;
+}
