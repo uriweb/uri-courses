@@ -6,10 +6,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+
 /**
- * Register block for course list by subject
+ * Register scripts and styles for the gutenberg block
  */
-function uri_courses_subject_block() {
+function uri_courses_block_assets() {
 	wp_register_script(
 		'uri-courses-by-subject',
 		URI_COURSES_URL . 'assets/gutenberg/subject/block.js',
@@ -21,14 +22,7 @@ function uri_courses_subject_block() {
 		'uri-courses/by-subject',
 		array( 'editor_script' => 'uri-courses-by-subject', )
 	);
-}
-add_action( 'init', 'uri_courses_subject_block' );
-
-
-/**
- * Add styles for the gutenberg block
- */
-function uri_courses_block_assets() {
+	
 	wp_enqueue_style( 'uri-courses-editor-styles', URI_COURSES_PATH . 'assets/gutenberg/subject/block.css' );
 }
 add_action( 'enqueue_block_assets', 'uri_courses_block_assets' );
