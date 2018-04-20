@@ -17,8 +17,6 @@
 			el( 'p', {}, 'Suspendisse lacinia leo metus, in facilisis ex eleifend non. Nulla pharetra pellentesque ante et ornare.' ),
 		);
 		
-		console.log(props);
-
 		return el( 'div', { 'data-subject': props.subject }, 
 			el( 'div', { className: 'uri-courses-shortcode' }, '[courses subject="' + props.subject.toUpperCase() + '"]'),
 			lipsum
