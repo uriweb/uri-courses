@@ -41,15 +41,6 @@ add_action( 'wp_enqueue_scripts', 'uri_courses_enqueue' );
 
 
 /**
- * Add styles for the gutenberb block
- */
-function uri_courses_block_assets() {
-	wp_enqueue_style( 'uri-courses-editor-styles', plugins_url( 'assets/gutenberg/subject/block.css', __FILE__ ) );
-}
-add_action( 'enqueue_block_assets', 'uri_courses_block_assets' );
-
-
-/**
  * Create a shortcode for displaying courses.
  * The shortcode accepts arguments: group (the category slug), posts_per_page, before, after
  * e.g. [uri-courses group="faculty"]

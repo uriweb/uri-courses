@@ -23,3 +23,14 @@ function uri_courses_subject_block() {
 	);
 }
 add_action( 'init', 'uri_courses_subject_block' );
+
+
+/**
+ * Add styles for the gutenberg block
+ */
+function uri_courses_block_assets() {
+	wp_enqueue_style( 'uri-courses-editor-styles', plugins_url( 'assets/gutenberg/subject/block.css', __FILE__ ) );
+}
+add_action( 'enqueue_block_assets', 'uri_courses_block_assets' );
+
+
