@@ -22,13 +22,18 @@ require_once URI_COURSES_PATH . 'inc/uri-courses-templating.php';
 // set up the admin settings screen
 include_once( URI_COURSES_PATH . 'inc/uri-courses-settings.php' );
 
-// include the Gutenberg block
-if ( function_exists( 'the_gutenberg_project' ) ) {
-	include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
-}
-
 // include the TinyMCE button
 include_once( URI_COURSES_PATH . 'inc/uri-courses-tinymce.php' );
+
+
+// include the Gutenberg block
+function uri_courses_gutenberg_is_active() {
+	$gutenberg_path = 'gutenberg/gutenberg.php';
+	if ( is_plugin_active( $gutenberg_path ) ) {
+		include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
+	}
+}
+add_action( 'admin_enqueue_scripts', 'uri_courses_gutenberg_is_active' );
 
 
 /**

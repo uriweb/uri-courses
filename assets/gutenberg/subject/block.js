@@ -1,4 +1,4 @@
-( function( blocks, element, i18n ) {
+( function ( blocks, element, i18n ) {
 
 	var el = element.createElement,
 			registerBlockType = wp.blocks.registerBlockType;
