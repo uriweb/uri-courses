@@ -83,10 +83,7 @@
 				event.preventDefault();
 				//event.target.parentNode.removeChild(event.target);
 			}
-
-
-			// @todo: make a shortcode editable
-			
+		
 			if ( props.isSelected ) {
 				// display the editor form that accepts the shortcode input
 				content.push( CoursesCreateForm( subject ) );
