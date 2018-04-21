@@ -3,7 +3,7 @@
 Plugin Name: URI Courses
 Plugin URI: http://www.uri.edu
 Description: Implements a shortcode to display course data from URI's API. [courses subject="AAF"]
-Version: 0.1
+Version: 0.9
 Author: John Pennypacker
 Author URI: 
 */
