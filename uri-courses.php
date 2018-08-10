@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: URI Courses
-Plugin URI: http://www.uri.edu
+Plugin URI: https://www.uri.edu
 Description: Implements a shortcode to display course data from URI's API. [courses subject="AAF"]
-Version: 0.9
+Version: 1.0
 Author: John Pennypacker
 Author URI: 
 */
