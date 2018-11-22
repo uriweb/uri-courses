@@ -16,7 +16,7 @@
 			el( 'h4', {}, 'Cras-scelerisque' ),
 			el( 'p', {}, 'Suspendisse lacinia leo metus, in facilisis ex eleifend non. Nulla pharetra pellentesque ante et ornare.' ),
 		);
-		
+
 		return el( 'div', { 'data-subject': props.subject }, 
 			el( 'div', { className: 'uri-courses-shortcode' }, '[courses subject="' + props.subject.toUpperCase() + '"]'),
 			lipsum
@@ -52,7 +52,7 @@
 				return el( 'form', { onSubmit: CoursesSetSubject, className: 'components-placeholder uri-courses-form ' + props.className },
 					el( 'fieldset', { }, 
 						el( 'label', { className:'components-placeholder__label'}, 'Course Code' ),
-						el( blocks.RichText, {
+						el( wp.editor.RichText, {
 							tagName: 'text',
 							inline: false,
 							className: 'components-placeholder__input input-control',

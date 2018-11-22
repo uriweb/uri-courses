@@ -25,15 +25,13 @@ include_once( URI_COURSES_PATH . 'inc/uri-courses-settings.php' );
 // include the TinyMCE button
 include_once( URI_COURSES_PATH . 'inc/uri-courses-tinymce.php' );
 
+// include the Gutenberg files
+include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
 
-// include the Gutenberg block
-function uri_courses_gutenberg_is_active() {
-	$gutenberg_path = 'gutenberg/gutenberg.php';
-	if ( is_plugin_active( $gutenberg_path ) ) {
-		include_once( URI_COURSES_PATH . 'inc/uri-courses-gutenberg.php' );
-	}
+
+function uri_courses_print($v) {
+	echo '<pre style="padding: 2rem; max-width: 500px; margin: 3rem auto 1rem; background: #fff; color: #000; border: 4px solid red;">', print_r($v, TRUE), '</pre>';
 }
-add_action( 'admin_enqueue_scripts', 'uri_courses_gutenberg_is_active' );
 
 
 /**
@@ -199,10 +197,12 @@ function uri_courses_is_expired( $date ) {
 /**
  * Query the API for course data
  * Thanks to Heath Loder for the query code
+ *
+ * @todo: handle condition when client ID is blank or rejected
+ *
  * @return mixed arr on success; FALSE on failure
  */
 function _uri_courses_query_api_by_subject( $subject ) {
-
 	$client_id = get_option( 'uri_courses_client_id' );
 	$user_agent = 'URI REST API WordPress Plugin; ' . get_bloginfo('url'); // So api.uri.edu can easily figure out who we are
 
