@@ -33,10 +33,15 @@
 ?><div class="course">
 	<header>
 		<div class="header">
-			<h3><?php print $course->Subject; ?><?php print $course->Catalog; ?>: <?php print $course->Long_Title; ?></h3>
+			<h3><span class="course-subject-code"><?php print $course->Subject; ?></span><span class="course-number"><?php print $course->Catalog; ?></span><span class="course-separator">: </span><span class="course-title"><?php print $course->Long_Title; ?></span></h3>
+			<?php
+			/*
+			<div class="course-meta"><span class="course-college"><?php print $course->College_Name; ?></span><span class="course-separator">: </span><span class="course-subject"><?php print $course->FormalDesc; ?></span></div>
+			*/
+			?>
 		</div>
 	</header>
-	<div class="description">
+	<div class="description course-description">
 		<?php print $course->Descr; ?>
 	</div>
 </div>
