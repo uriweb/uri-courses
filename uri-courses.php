@@ -3,7 +3,7 @@
 Plugin Name: URI Courses
 Plugin URI: https://www.uri.edu
 Description: Implements a shortcode to display course data from URI's API. [courses subject="AAF"]
-Version: 1.0
+Version: 1.1
 Author: John Pennypacker
 Author URI: 
 */
@@ -45,8 +45,9 @@ add_action( 'wp_enqueue_scripts', 'uri_courses_enqueue' );
 
 /**
  * Create a shortcode for displaying courses.
- * The shortcode accepts arguments: group (the category slug), posts_per_page, before, after
- * e.g. [uri-courses group="faculty"]
+ * The shortcode accepts arguments: subject (the course code), min, max, before, after
+ * NOTE: if max is unspecified, min will act as both min and max.
+ * e.g. [courses subject="BUS"]
  */
 function uri_courses_shortcode( $attributes, $content, $shortcode ) {
 	// normalize attribute keys, lowercase
@@ -55,6 +56,8 @@ function uri_courses_shortcode( $attributes, $content, $shortcode ) {
 	// default attributes
 	$attributes = shortcode_atts( array(
 		'subject' => 'AAF', // slug, slug2, slug3
+		'min' => NULL,
+		'max' => NULL,
 		'before' => '<div class="uri-courses">',
 		'after' => '</div>',
 	), $attributes, $shortcode );
@@ -117,7 +120,7 @@ function uri_courses_get_courses( $attributes ) {
 	}
 
 	// 2. check if we have a cache for this resource
-	$url = _uri_courses_build_url ( $attributes['subject'] );
+	$url = _uri_courses_build_url ( $attributes );
 	$hash = uri_courses_hash_url( $url );
 	
 	if ( array_key_exists($hash, $course_cache ) ) {
@@ -136,7 +139,7 @@ function uri_courses_get_courses( $attributes ) {
 	
 	if( $refresh_cache ) {
 		//echo '<pre>Pull fresh courses and cache them</pre>';
-		$course_data = _uri_courses_query_api_by_subject( $attributes['subject'] );
+		$course_data = _uri_courses_query_api_by_subject( $attributes );
 		if ( $course_data !== FALSE ) {
 			uri_courses_cache_courses($course_data);
 		}	
@@ -178,9 +181,15 @@ function uri_courses_hash_url ( $url ) {
  * @param str $subject is the three letter subject code
  * @return str
  */
-function _uri_courses_build_url( $subject ) {
+function _uri_courses_build_url( $attributes ) {
 	$api_base = get_option( 'uri_courses_url' );
-	$url = $api_base . '/catalog/courses/' . $subject;
+	$url = $api_base . '/catalog/courses/' . $attributes['subject'];
+	if ( NULL !== $attributes['min'] && is_numeric( $attributes['min'] ) ) {
+		$url .= '/' . $attributes['min'];
+	}
+	if ( NULL !== $attributes['max'] && is_numeric( $attributes['max'] ) ) {
+		$url .= '/' . $attributes['max'];
+	}
 	return $url;
 }
 /**
@@ -202,7 +211,7 @@ function uri_courses_is_expired( $date ) {
  *
  * @return mixed arr on success; FALSE on failure
  */
-function _uri_courses_query_api_by_subject( $subject ) {
+function _uri_courses_query_api_by_subject( $attributes ) {
 	$client_id = get_option( 'uri_courses_client_id' );
 	$user_agent = 'URI REST API WordPress Plugin; ' . get_bloginfo('url'); // So api.uri.edu can easily figure out who we are
 
@@ -215,11 +224,11 @@ function _uri_courses_query_api_by_subject( $subject ) {
 		);
 	}
 	
-	$url = _uri_courses_build_url ( $subject );
+	$url = _uri_courses_build_url ( $attributes );
 	
 	$response = wp_safe_remote_get ( $url, $args );
 	
-	if ( isset( $response['body'] ) && !empty( $response['body'] ) && wp_remote_retrieve_response_code($response) == '200' ) {
+	if ( isset( $response['body'] ) && !empty( $response['body'] ) && '200' == wp_remote_retrieve_response_code( $response ) ) {
 		// hooray, all is well!
 		$results = array();
 		$results['url'] = $url;
@@ -234,7 +243,7 @@ function _uri_courses_query_api_by_subject( $subject ) {
 			echo 'There was an error with the URI Courses Plugin: ' . $error_message;
 			return FALSE;
 		}
-		if ( wp_remote_retrieve_response_code($response) != '200' ) {
+		if ( '200' != wp_remote_retrieve_response_code( $response ) ) {
 			echo $response;
 			return FALSE;
 		}
