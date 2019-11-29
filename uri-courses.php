@@ -63,6 +63,7 @@ function uri_courses_shortcode( $attributes, $content, $shortcode ) {
 	), $attributes, $shortcode );
 
 	$course_data = uri_courses_get_courses( $attributes );
+	
 	$courses = $course_data['courses'];
 
 	//echo '<pre>data: ', print_r($courses, TRUE), '</pre>';
@@ -79,6 +80,10 @@ add_shortcode( 'courses', 'uri_courses_shortcode' );
  * @return str HTML list of courses
  */
 function uri_courses_display_list( $courses, $attributes ) {
+	if ( ! is_array ( $courses ) ) {
+		// courses isn't an array... 
+		return '<p class="error">I couldn’t find courses matching <kbd>' . $attributes['subject'] . '</kbd>.</p>';
+	}
 	ob_start();
 
 	print $attributes['before'];
@@ -118,12 +123,12 @@ function uri_courses_get_courses( $attributes ) {
 	if ( empty( $course_cache ) ) {
 		$course_cache = array();
 	}
-
+	
 	// 2. check if we have a cache for this resource
 	$url = _uri_courses_build_url ( $attributes );
 	$hash = uri_courses_hash_url( $url );
 	
-	if ( array_key_exists($hash, $course_cache ) ) {
+	if ( array_key_exists( $hash, $course_cache ) ) {
 		// we've got cached data!
 		$course_data = $course_cache[$hash];
 		// 3. check if the cache has sufficient recency
@@ -227,7 +232,7 @@ function _uri_courses_query_api_by_subject( $attributes ) {
 	$url = _uri_courses_build_url ( $attributes );
 	
 	$response = wp_safe_remote_get ( $url, $args );
-	
+
 	if ( isset( $response['body'] ) && !empty( $response['body'] ) && '200' == wp_remote_retrieve_response_code( $response ) ) {
 		// hooray, all is well!
 		$results = array();
