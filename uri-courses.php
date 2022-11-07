@@ -49,7 +49,7 @@ add_action( 'wp_enqueue_scripts', 'uri_courses_enqueue' );
  * NOTE: if max is unspecified, min will act as both min and max.
  * e.g. [courses subject="BUS"]
  */
-function uri_courses_shortcode( $attributes, $content, $shortcode ) {
+/*function uri_courses_shortcode( $attributes, $content, $shortcode ) {
 	// normalize attribute keys, lowercase
 	$attributes = array_change_key_case( (array)$attributes, CASE_LOWER );
 
@@ -83,8 +83,8 @@ function uri_courses_shortcode( $attributes, $content, $shortcode ) {
 	return do_shortcode('[cl-notice dismissible="false"]Course descriptions are temporarily unavailable. Until the issue is resolved, you can <a rel="noreferrer noopener" href="https://web.uri.edu/catalog/files/2021-2022URICatalogCourseDescriptions.pdf" target="_blank">see the course ' . $error_syntax . ' for  <strong>' . $error_string . '</strong> here</a>.[/cl-notice]');
 	*/
 
-}
-add_shortcode( 'courses', 'uri_courses_shortcode' );
+//}
+//add_shortcode( 'courses', 'uri_courses_shortcode' );
 
 
 /**
