@@ -5,7 +5,7 @@ Plugin URI: https://www.uri.edu
 Description: Implements a shortcode to display course data from URI's API. [courses subject="AAF"]
 Version: 1.1
 Author: John Pennypacker
-Author URI: 
+Author URI:
 */
 
 // Block direct requests
@@ -49,7 +49,7 @@ add_action( 'wp_enqueue_scripts', 'uri_courses_enqueue' );
  * NOTE: if max is unspecified, min will act as both min and max.
  * e.g. [courses subject="BUS"]
  */
-function uri_courses_shortcode( $attributes, $content, $shortcode ) {
+/*function uri_courses_shortcode( $attributes, $content, $shortcode ) {
 	// normalize attribute keys, lowercase
 	$attributes = array_change_key_case( (array)$attributes, CASE_LOWER );
 
@@ -63,13 +63,28 @@ function uri_courses_shortcode( $attributes, $content, $shortcode ) {
 	), $attributes, $shortcode );
 
 	$course_data = uri_courses_get_courses( $attributes );
+
 	$courses = $course_data['courses'];
 
 	//echo '<pre>data: ', print_r($courses, TRUE), '</pre>';
 	return uri_courses_display_list( $courses, $attributes );
 
-}
-add_shortcode( 'courses', 'uri_courses_shortcode' );
+	/* RETURN ERROR NOTICE TEMPORARILY - 10/5/21 BF
+	$error_string = $attributes['subject'];
+	$error_syntax = 'descriptions';
+	if ( ! empty( $attributes['min'] ) ) {
+		$error_string .= ' ' . $attributes['min'];
+		$error_syntax = 'description';
+	}
+	if ( ! empty( $attributes['max'] ) ) {
+		$error_string .= '-' . $attributes['max'];
+		$error_syntax = 'descriptions';
+	}
+	return do_shortcode('[cl-notice dismissible="false"]Course descriptions are temporarily unavailable. Until the issue is resolved, you can <a rel="noreferrer noopener" href="https://web.uri.edu/catalog/files/2021-2022URICatalogCourseDescriptions.pdf" target="_blank">see the course ' . $error_syntax . ' for  <strong>' . $error_string . '</strong> here</a>.[/cl-notice]');
+	*/
+
+//}
+//add_shortcode( 'courses', 'uri_courses_shortcode' );
 
 
 /**
@@ -79,6 +94,10 @@ add_shortcode( 'courses', 'uri_courses_shortcode' );
  * @return str HTML list of courses
  */
 function uri_courses_display_list( $courses, $attributes ) {
+	if ( ! is_array ( $courses ) ) {
+		// courses isn't an array...
+		return '<p class="error">I couldn’t find courses matching <kbd>' . $attributes['subject'] . '</kbd>.</p>';
+	}
 	ob_start();
 
 	print $attributes['before'];
@@ -89,7 +108,7 @@ function uri_courses_display_list( $courses, $attributes ) {
 	print $attributes['after'];
 
 	$output = ob_get_clean();
-	
+
 	return $output;
 }
 
@@ -112,7 +131,7 @@ function uri_courses_display_one( $course ) {
 function uri_courses_get_courses( $attributes ) {
 
 	$refresh_cache = FALSE;
-	
+
 	// 1. load all cached courses
 	$course_cache = get_option( 'uri_courses_cache' );
 	if ( empty( $course_cache ) ) {
@@ -122,8 +141,8 @@ function uri_courses_get_courses( $attributes ) {
 	// 2. check if we have a cache for this resource
 	$url = _uri_courses_build_url ( $attributes );
 	$hash = uri_courses_hash_url( $url );
-	
-	if ( array_key_exists($hash, $course_cache ) ) {
+
+	if ( array_key_exists( $hash, $course_cache ) ) {
 		// we've got cached data!
 		$course_data = $course_cache[$hash];
 		// 3. check if the cache has sufficient recency
@@ -136,15 +155,15 @@ function uri_courses_get_courses( $attributes ) {
 	} else { // no cache data
 		$refresh_cache = TRUE;
 	}
-	
+
 	if( $refresh_cache ) {
 		//echo '<pre>Pull fresh courses and cache them</pre>';
 		$course_data = _uri_courses_query_api_by_subject( $attributes );
 		if ( $course_data !== FALSE ) {
 			uri_courses_cache_courses($course_data);
-		}	
+		}
 	}
-	
+
 	return $course_data;
 
 }
@@ -170,7 +189,7 @@ function uri_courses_cache_courses( $course_data ) {
 /**
  * hash the URL.  currently md5, someday something else.
  * @param str $url the URL for the API
- * @return str 
+ * @return str
  */
 function uri_courses_hash_url ( $url ) {
 	$hash = md5( $url );
@@ -223,11 +242,11 @@ function _uri_courses_query_api_by_subject( $attributes ) {
 			'headers'     => [ "id" => $client_id ]
 		);
 	}
-	
+
 	$url = _uri_courses_build_url ( $attributes );
-	
+
 	$response = wp_safe_remote_get ( $url, $args );
-	
+
 	if ( isset( $response['body'] ) && !empty( $response['body'] ) && '200' == wp_remote_retrieve_response_code( $response ) ) {
 		// hooray, all is well!
 		$results = array();
@@ -237,7 +256,7 @@ function _uri_courses_query_api_by_subject( $attributes ) {
 	} else {
 
 		// still here?  Then we have an error condition
-	
+
 		if ( is_wp_error ( $response ) ) {
 			$error_message = $response->get_error_message();
 			echo 'There was an error with the URI Courses Plugin: ' . $error_message;
